@@ -23,6 +23,9 @@ public class File {
     @Column(name = "file_original_name", nullable = false)
     private String fileOriginalName;
 
+    @Column(name = "file_path", nullable = false)
+    private String filePath;
+
     @Column(name = "content_type", nullable = false)
     private String contentType;
 

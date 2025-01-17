@@ -14,6 +14,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
@@ -58,6 +60,7 @@ public class FileService {
                 .builder()
                 .filename(filename)
                 .fileOriginalName(fileOriginalName)
+                .filePath(contentType)
                 .contentType(contentType)
                 .size(size)
                 .build();
@@ -65,7 +68,7 @@ public class FileService {
         minioClient.putObject(PutObjectArgs
                 .builder()
                 .bucket(bucket)
-                .object(filename)
+                .object(contentType + "/" + filename)
                 .contentType(contentType)
                 .stream(inputStream, size, -1)
                 .build());
@@ -80,7 +83,7 @@ public class FileService {
         return minioClient.getObject(GetObjectArgs
                 .builder()
                 .bucket(bucket)
-                .object(file.getFilename())
+                .object(file.getFilePath() + "/" + file.getFilename())
                 .build());
     }
 
@@ -91,7 +94,7 @@ public class FileService {
         minioClient.removeObject(RemoveObjectArgs
                 .builder()
                 .bucket(bucket)
-                .object(file.getFilename())
+                .object(file.getFilePath() + "/" + file.getFilename())
                 .build());
 
         fileRepository.delete(file);
