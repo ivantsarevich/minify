@@ -18,3 +18,9 @@ spring:
     properties:
       hibernate:
         format_sql: ${FORMAT_SQL:false}
+
+minio:
+  url: ${MINIO_URL}
+  bucket: ${MINIO_BUCKET}
+  access-key: ${MINIO_ACCESS}
+  secret-key: ${MINIO_SECRET}
