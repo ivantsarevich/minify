@@ -5,6 +5,7 @@ import efr.iv.igr.minify.repository.FileRepository;
 import io.minio.GetObjectArgs;
 import io.minio.MinioClient;
 import io.minio.PutObjectArgs;
+import io.minio.RemoveObjectArgs;
 import io.minio.errors.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -81,5 +82,18 @@ public class FileService {
                 .bucket(bucket)
                 .object(file.getFilename())
                 .build());
+    }
+
+    public void delete(long id) throws ServerException, InsufficientDataException, ErrorResponseException,
+            IOException, NoSuchAlgorithmException, InvalidKeyException, InvalidResponseException,
+            XmlParserException, InternalException {
+        File file = findById(id);
+        minioClient.removeObject(RemoveObjectArgs
+                .builder()
+                .bucket(bucket)
+                .object(file.getFilename())
+                .build());
+
+        fileRepository.delete(file);
     }
 }

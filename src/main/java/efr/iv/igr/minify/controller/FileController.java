@@ -50,4 +50,12 @@ public class FileController {
         File file = fileService.upload(multipartFile);
         return new ResponseEntity<>(file, HttpStatus.OK);
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteFile(@PathVariable(name = "id") long id) throws ServerException, InsufficientDataException,
+            ErrorResponseException, IOException, NoSuchAlgorithmException, InvalidKeyException,
+            InvalidResponseException, XmlParserException, InternalException {
+        fileService.delete(id);
+        return new ResponseEntity<>("File deleted successfully", HttpStatus.OK);
+    }
 }
