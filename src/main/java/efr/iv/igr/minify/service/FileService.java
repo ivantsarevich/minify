@@ -16,6 +16,7 @@ import java.io.InputStream;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class FileService {
@@ -45,7 +46,9 @@ public class FileService {
     public File upload(MultipartFile multipartFile) throws IOException, ServerException, InsufficientDataException,
             ErrorResponseException, NoSuchAlgorithmException, InvalidKeyException, InvalidResponseException,
             XmlParserException, InternalException {
-        String filename = multipartFile.getOriginalFilename();
+        String ext = multipartFile.getOriginalFilename().substring(multipartFile.getOriginalFilename().lastIndexOf("."));
+        String filename = UUID.randomUUID() + ext;
+        String fileOriginalName = multipartFile.getOriginalFilename();
         String contentType = multipartFile.getContentType();
         long size = multipartFile.getSize();
         InputStream inputStream = multipartFile.getInputStream();
@@ -53,6 +56,7 @@ public class FileService {
         File file = File
                 .builder()
                 .filename(filename)
+                .fileOriginalName(fileOriginalName)
                 .contentType(contentType)
                 .size(size)
                 .build();

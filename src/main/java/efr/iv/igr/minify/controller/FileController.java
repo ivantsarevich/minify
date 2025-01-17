@@ -36,9 +36,10 @@ public class FileController {
     public ResponseEntity<InputStreamResource> getFile(@PathVariable(name = "id") long id) throws ServerException,
             InsufficientDataException, ErrorResponseException, IOException, NoSuchAlgorithmException,
             InvalidKeyException, InvalidResponseException, XmlParserException, InternalException {
-        String contentType = fileService.findById(id).getContentType();
+        File file = fileService.findById(id);
         HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.valueOf(contentType));
+        headers.setContentType(MediaType.valueOf(file.getContentType()));
+        headers.setContentDispositionFormData("attachment", file.getFilename());
         return new ResponseEntity<>(new InputStreamResource(fileService.download(id)), headers, HttpStatus.OK);
     }
 

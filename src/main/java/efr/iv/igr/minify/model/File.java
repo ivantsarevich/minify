@@ -20,6 +20,9 @@ public class File {
     @Column(name = "filename", nullable = false)
     private String filename;
 
+    @Column(name = "file_original_name", nullable = false)
+    private String fileOriginalName;
+
     @Column(name = "content_type", nullable = false)
     private String contentType;
 
