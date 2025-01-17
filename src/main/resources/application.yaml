@@ -8,6 +8,12 @@ spring:
     url: jdbc:postgresql://${HOSTNAME}:${POSTGRES_PORT}/${POSTGRES_DB}
     driver-class-name: org.postgresql.Driver
 
+  servlet:
+    multipart:
+      max-file-size: ${MAX_FILE_SIZE}
+      max-request-size: ${MAX_REQUEST_SIZE}
+      enabled: ${MULTIPART_ENABLE:true}
+
   jpa:
     hibernate:
       ddl-auto: validate

@@ -2,9 +2,19 @@ package efr.iv.igr.minify.controller;
 
 import efr.iv.igr.minify.model.File;
 import efr.iv.igr.minify.service.FileService;
+import io.minio.errors.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 @RestController
@@ -23,12 +33,20 @@ public class FileController {
     }
 
     @GetMapping("/{id}")
-    public File getFile(@PathVariable(name = "id") long id) {
-        return fileService.findOne(id);
+    public ResponseEntity<InputStreamResource> getFile(@PathVariable(name = "id") long id) throws ServerException,
+            InsufficientDataException, ErrorResponseException, IOException, NoSuchAlgorithmException,
+            InvalidKeyException, InvalidResponseException, XmlParserException, InternalException {
+        String contentType = fileService.findById(id).getContentType();
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.valueOf(contentType));
+        return new ResponseEntity<>(new InputStreamResource(fileService.download(id)), headers, HttpStatus.OK);
     }
 
     @PostMapping
-    public File createFile(@RequestBody(required = true) File file) {
-        return fileService.save(file);
+    public ResponseEntity<File> createFile(@RequestPart(value = "file")MultipartFile multipartFile) throws ServerException,
+            InsufficientDataException, ErrorResponseException, IOException, NoSuchAlgorithmException,
+            InvalidKeyException, InvalidResponseException, XmlParserException, InternalException {
+        File file = fileService.upload(multipartFile);
+        return new ResponseEntity<>(file, HttpStatus.OK);
     }
 }

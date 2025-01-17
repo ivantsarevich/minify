@@ -17,5 +17,12 @@ public class File {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    @Column(name = "filename", nullable = false)
     private String filename;
+
+    @Column(name = "content_type", nullable = false)
+    private String contentType;
+
+    @Column(name = "size", nullable = false)
+    private long size;
 }
