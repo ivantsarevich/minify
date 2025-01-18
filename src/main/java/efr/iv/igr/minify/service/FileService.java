@@ -14,8 +14,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
@@ -49,7 +47,12 @@ public class FileService {
     public File upload(MultipartFile multipartFile) throws IOException, ServerException, InsufficientDataException,
             ErrorResponseException, NoSuchAlgorithmException, InvalidKeyException, InvalidResponseException,
             XmlParserException, InternalException {
-        String ext = multipartFile.getOriginalFilename().substring(multipartFile.getOriginalFilename().lastIndexOf("."));
+        String ext = multipartFile
+                .getOriginalFilename()
+                .substring(multipartFile
+                        .getOriginalFilename()
+                        .lastIndexOf("."));
+
         String filename = UUID.randomUUID() + ext;
         String fileOriginalName = multipartFile.getOriginalFilename();
         String contentType = multipartFile.getContentType();

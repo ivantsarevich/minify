@@ -44,7 +44,7 @@ public class FileController {
     }
 
     @PostMapping
-    public ResponseEntity<File> createFile(@RequestPart(value = "file")MultipartFile multipartFile) throws ServerException,
+    public ResponseEntity<File> createFile(@RequestPart(value = "file") MultipartFile multipartFile) throws ServerException,
             InsufficientDataException, ErrorResponseException, IOException, NoSuchAlgorithmException,
             InvalidKeyException, InvalidResponseException, XmlParserException, InternalException {
         File file = fileService.upload(multipartFile);
