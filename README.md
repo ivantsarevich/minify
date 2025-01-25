@@ -43,6 +43,14 @@ docker compose -f minio.yaml up
 docker compose up
 ```
 
+## Documentation:
+
+OpenAPI is connected to the application for documentation
+
+```
+http://localhost:8080/swagger-ui/index.html
+```
+
 ## Stack
 
 - Java
