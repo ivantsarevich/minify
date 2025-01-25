@@ -15,7 +15,7 @@ git clone https://github.com/ivantsarevich/minify.git
 3. Build the application
 
 ```
-gradlew build -x test
+gradlew build
 ```
 
 4. Create a Docker image
@@ -41,6 +41,14 @@ docker compose -f minio.yaml up
 
 ```
 docker compose up
+```
+
+## Documentation:
+
+OpenAPI is connected to the application for documentation
+
+```
+http://localhost:8080/swagger-ui/index.html
 ```
 
 ## Stack

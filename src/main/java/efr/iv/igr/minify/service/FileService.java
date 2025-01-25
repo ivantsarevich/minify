@@ -12,11 +12,13 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 @Service
@@ -38,19 +40,19 @@ public class FileService {
         return fileRepository.findAll();
     }
 
-    public File findById(long id) {
+    public File findById(long id) throws FileNotFoundException {
         return fileRepository
                 .findById(id)
-                .orElseThrow(() -> new RuntimeException("File not found!"));
+                .orElseThrow(() -> new FileNotFoundException("File with ID " + id + " not found!"));
     }
 
     public File upload(MultipartFile multipartFile) throws IOException, ServerException, InsufficientDataException,
             ErrorResponseException, NoSuchAlgorithmException, InvalidKeyException, InvalidResponseException,
             XmlParserException, InternalException {
-        String ext = multipartFile
-                .getOriginalFilename()
-                .substring(multipartFile
-                        .getOriginalFilename()
+        String ext = Objects.requireNonNull(multipartFile
+                        .getOriginalFilename())
+                .substring(Objects.requireNonNull(multipartFile
+                                .getOriginalFilename())
                         .lastIndexOf("."));
 
         String filename = UUID.randomUUID() + ext;
