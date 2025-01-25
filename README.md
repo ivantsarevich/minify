@@ -15,7 +15,7 @@ git clone https://github.com/ivantsarevich/minify.git
 3. Build the application
 
 ```
-gradlew build -x test
+gradlew build
 ```
 
 4. Create a Docker image
